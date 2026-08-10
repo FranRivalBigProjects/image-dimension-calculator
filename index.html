@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Dimension Calculator - Pixels to Inches/Cm</title>
+<meta name="description" content='Convert image pixel dimensions to physical size in inches and centimeters at any DPI.'>
+<meta name="google-site-verification" content="REPLACE_ME">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+    :root{
+      --bg:#0d0f11;--panel:#15181b;--line:#262b30;--text:#d8dee3;
+      --muted:#7c8791;--accent:#5ec9a6;--accent2:#e8b34f;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:'IBM Plex Mono',monospace;line-height:1.5;padding:32px 16px 64px;}
+    .wrap{max-width:640px;margin:0 auto;}
+    h1{font-size:20px;margin:0 0 6px;color:#fff;font-weight:600;}
+    .desc{color:var(--muted);font-size:13px;margin:0 0 24px;}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px;margin-bottom:20px;}
+    label{display:block;font-size:12px;color:var(--muted);margin:14px 0 6px;}
+    label:first-child{margin-top:0;}
+    input, select{width:100%;background:#0a0c0e;border:1px solid var(--line);color:var(--text);padding:9px 10px;border-radius:4px;font-family:inherit;font-size:14px;}
+    input[type=file]{padding:8px;}
+    input[type=color]{padding:2px;height:38px;}
+    input:focus, select:focus{outline:1px solid var(--accent);}
+    button{margin-top:18px;width:100%;background:var(--accent);color:#08110d;border:none;padding:11px;border-radius:4px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer;}
+    button:hover{opacity:0.9;}
+    .result{margin-top:18px;padding:14px;border:1px dashed var(--line);border-radius:4px;font-size:14px;min-height:20px;}
+    .result .big{font-size:22px;color:var(--accent2);font-weight:600;display:block;margin-bottom:4px;}
+    table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+    th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;}
+    th{color:var(--muted);font-weight:600;}
+    .note{color:var(--muted);font-size:12px;margin-top:20px;}
+    a{color:var(--accent);}
+    .swatch{width:26px;height:26px;border-radius:4px;display:inline-block;vertical-align:middle;margin-right:8px;border:1px solid var(--line);}
+    canvas{max-width:100%;border-radius:4px;border:1px solid var(--line);background:#000;}
+    .two-col{display:flex;gap:12px;flex-wrap:wrap;}
+    .two-col > div{flex:1;min-width:140px;}
+    .row{display:flex;align-items:center;padding:4px 0;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Image Dimension Calculator</h1>
+  <p class="desc">Enter pixel width, height and DPI to get the physical size.</p>
+  <div class="panel">
+    
+    <label for="w">Width (px)</label>
+    <input type="number" id="w" placeholder="e.g. 3000" step="any">
+    <label for="h">Height (px)</label>
+    <input type="number" id="h" placeholder="e.g. 2000" step="any">
+    <label for="dpi">DPI</label>
+    <input type="number" id="dpi" value="300" step="any">
+  
+    <button onclick="calc()">Calculate</button>
+    <div class="result" id="result"></div>
+  </div>
+  <p class="note">Estimate only. Values may vary slightly depending on the source image and browser.</p>
+</div>
+<script>
+
+function calc(){
+  var w = parseFloat(document.getElementById('w').value);
+  var h = parseFloat(document.getElementById('h').value);
+  var dpi = parseFloat(document.getElementById('dpi').value);
+  var result = document.getElementById('result');
+  if (isNaN(w) || isNaN(h) || isNaN(dpi) || w<=0 || h<=0 || dpi<=0) {
+    result.innerHTML = 'Enter valid width, height and DPI.'; return;
+  }
+  var inW = w/dpi, inH = h/dpi;
+  var cmW = inW*2.54, cmH = inH*2.54;
+  result.innerHTML = '<span class="big">' + inW.toFixed(2) + ' x ' + inH.toFixed(2) + ' in</span>' +
+    cmW.toFixed(2) + ' x ' + cmH.toFixed(2) + ' cm at ' + dpi + ' DPI';
+}
+
+</script>
+</body>
+</html>
